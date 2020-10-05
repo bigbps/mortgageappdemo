@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content=" BIGBPS Mortgage App DEMO" />
+    <meta property="og:image" content="https://i.ibb.co/nwFQ5V2/sign-up.jpg" />
+    <title>BIGBPS Mortgage App DEMO</title>
+    <link rel="stylesheet" href="./styles/stylesheet.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/space10-community/conversational-form@1.0.1/dist/conversational-form.min.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+    <script defer src='/__/firebase/6.3.0/firebase-app.js'></script>
+    <script defer src='/__/firebase/6.3.0/firebase-functions.js'></script>
+    <script defer src='/__/firebase/init.js'></script>
+    <script type="text/javascript" src="./js/applicant.js"></script>
+  </head>
+  <body>
+    <form id="form" cf-form>
+      <div class="welcome"></div>
+      <cf-robot-message cf-questions="This process quickly produces a Mortgage Pre-Approval or Refinancing Assessment based on your unique situation. We will ask you targeted questions in order to be as accurate as possible." />
+      <cf-robot-message cf-questions="You will receive an email with your mortgage approval after finishing the application. If the message is not in your inbox, please check your junk/spam folder or notify us at 1-587-801-7447. Let's get started!" />
+      <fieldset cf-questions="Do you have a co-applicant?" required>
+        <input type="radio" name="referral" cf-label="Yes" value="Joint" />
+        <input type="radio" name="referral" cf-label="No" value="Single" />
+      </fieldset>
+      <fieldset cf-questions="Would you like to enter your information manually or would you like to upload a picture of your drivers license?" required>
+        <input type="radio" name="license" cf-label="Manually" value="Manually" />
+        <input type="radio" name="license" cf-label="License" value="License" />
+      </fieldset>
+      <input cf-questions="Please click on the paper clip in the bottom corner to upload a picture of your license" cf-conditional-license="License" name="fileUpload" type="file" />
+
+      <input type="text" cf-questions="What is your legal first name?" cf-conditional-license="Manually" name="primaryApplicantFirstName" required />
+      <input type="text" cf-questions="What is your legal last name?" cf-conditional-license="Manually" name="primaryApplicantLastName" required />
+      <input type="email" cf-questions="What is your email?" name="primaryApplicantEmail" cf-error="Thats not a valid email" required />
+      <input type="text" cf-questions="What is your date of birth? (YYYYMMDD)" cf-conditional-license="Manually" name="primaryDOB" required />
+      <input type="number" cf-questions="If you live in an apartment, please enter the apartment number. If not, please press enter" cf-conditional-license="Manually" name="apt" />
+      <input type="text" cf-questions="What is your street address?" name="primaryAddress" cf-conditional-license="Manually" required />
+      <input type="text" cf-questions="What city is the property located in?" cf-conditional-license="Manually" name="primaryCity" />
+      <fieldset cf-questions="What province do you live in?" required>
+        <input type="radio" name="primaryProvince" cf-conditional-license="Manually" cf-label="AB" value="AB" />
+        <input type="radio" name="primaryProvince" cf-conditional-license="Manually" cf-label="BC" value="BC" />
+        <input type="radio" name="primaryProvince" cf-conditional-license="Manually" cf-label="SK" value="SK" />
+        <input type="radio" name="primaryProvince" cf-conditional-license="Manually" cf-label="MB" value="MB" />
+        <input type="radio" name="primaryProvince" cf-conditional-license="Manually" cf-label="ON" value="ON" />
+      </fieldset>
+      <input type="text" cf-questions="What is your postal code?" cf-conditional-license="Manually" cf-error="Invalid Postal Code!" pattern="^[abceghj-nprstvxyABCEGHJ-NPRSTVXY]\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z][ -]?\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z]\d" name="primaryPostal" required />
+
+      <!-- Secondary Applicant Questions -->
+      <fieldset cf-questions="Would you like to enter the co-applicant information manually or would you like to upload a picture of your drivers license?" required>
+        <input type="radio" name="licenseCoApp" cf-conditional-referral="Joint" cf-label="Manually" value="Manually" />
+        <input type="radio" name="licenseCoApp" cf-conditional-referral="Joint" cf-label="License" value="License" />
+      </fieldset>
+      <input cf-questions="Please click on the paper clip in the bottom corner to upload a picture of their license" cf-conditional-licenseCoApp="License" name="fileUploadCoApp" type="file" />
+
+      <input type="text" cf-questions="What's the co-applicant's first name?" cf-conditional-licenseCoApp="Manually" cf-conditional-referral="Joint" name="secondaryApplicantFirstName" required />
+      <input type="text" cf-questions="What's the co-applicant's last name?" cf-conditional-licenseCoApp="Manually" cf-conditional-referral="Joint" name="secondaryApplicantLastName" required />
+      <input type="tel" cf-questions="What's the co-applicant's mobile phone number?" cf-conditional-licenseCoApp="Manually" pattern="^(\d{10})\s*$" cf-error="Thats not a valid phone number" cf-conditional-referral="Joint" name="secondaryApplicantMobile" required />
+      <input type="number" cf-questions="What's the co-applicant's date of birth? (YYYYMMDD)" cf-conditional-licenseCoApp="Manually" cf-conditional-referral="Joint" name="secondaryApplicantDOB" pattern="[0-9]{8}" cf-error="Date format: YYYYMMDD" required />
+      <fieldset cf-questions="Co-applicant Address?">
+        <input type="radio" name="coappAdd" cf-conditional-licenseCoApp="Manually" cf-conditional-referral="Joint" cf-label="Use same address as primary applicant" value="True" />
+        <input type="radio" name="coappAdd" cf-conditional-licenseCoApp="Manually" cf-conditional-referral="Joint" cf-label="Enter a different address" value="False" />
+      </fieldset>
+
+      <!-- Co-Applicant has different address -->
+      <input type="number" cf-questions="If the co-applicant lives in an apartment, please enter the apartment number. If not, please press enter" cf-conditional-licenseCoApp="Manually" cf-conditional-coappAdd="False" name="coAppApt" />
+      <input type="text" cf-questions="Alright, what is the property street address of the co-applicant?" cf-conditional-licenseCoApp="Manually" cf-conditional-coappAdd="False" name="coAppAddress" />
+      <input type="text" cf-questions="What city is the co-applicant's property located in?" cf-conditional-licenseCoApp="Manually" cf-conditional-coappAdd="False" name="coAppCity" />
+      <fieldset cf-questions="What province does the co-applicant live in?" required>
+        <input type="radio" name="coAppProvince" cf-conditional-licenseCoApp="Manually" cf-conditional-coappAdd="False" cf-label="AB" value="AB" />
+        <input type="radio" name="coAppProvince" cf-conditional-licenseCoApp="Manually" cf-conditional-coappAdd="False" cf-label="BC" value="BC" />
+        <input type="radio" name="coAppProvince" cf-conditional-licenseCoApp="Manually" cf-conditional-coappAdd="False" cf-label="SK" value="SK" />
+        <input type="radio" name="coAppProvince" cf-conditional-licenseCoApp="Manually" cf-conditional-coappAdd="False" cf-label="MB" value="MB" />
+        <input type="radio" name="coAppProvince" cf-conditional-licenseCoApp="Manually" cf-conditional-coappAdd="False" cf-label="ON" value="ON" />
+      </fieldset>
+      <input type="text" cf-questions="What is the postal code of the property?" cf-conditional-licenseCoApp="Manually" cf-conditional-coappAdd="False"  cf-error="Invalid Postal Code!" pattern="^[abceghj-nprstvxyABCEGHJ-NPRSTVXY]\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z][ -]?\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z]\d" name="coAppPostal" />
+
+     <!-- Initial Financing Questions -->
+     <fieldset cf-questions="What is the purpose of this financing?" required>
+      <!-- <input type="radio" name="fnceObj" cf-label="Offer of Purchase" value="Offer of Purchase" /> -->
+      <input type="radio" name="fnceObj" cf-label="Purchase Pre-Approval" value="Express Pre-Approval" />
+      <input type="radio" name="fnceObj" cf-label="Refinance / Renewal Transfer " value="Refinance / Renewal / Equity-Take-Out" />
+    </fieldset>
+
+    <!-- If it is a Refinance / Renewal/ Equity-Take-Out -->
+    <fieldset cf-questions="What property would you like to refinance?" required>
+      <input type="radio" name="subjectProp" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Use Primary Applicant Address" value="Use Primary Applicant Address" />
+      <input type="radio" name="subjectProp" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Enter Second Home Address" value="Enter Second Home Address" />
+    </fieldset>
+    
+    <!--Subject Property Address is separate from primary applicant address -->
+    <input type="text" cf-questions="What is the property street address?" cf-conditional-subjectProp="Enter Second Home Address" name="propertyAddress" />
+    <input type="text" cf-questions="What city is the property located in?" cf-conditional-subjectProp="Enter Second Home Address" name="propertyCity" />
+    <fieldset cf-questions="What province is the property in?" required>
+      <input type="radio" name="propertyProvince" cf-conditional-subjectProp="Enter Second Home Address" cf-label="AB" value="AB" />
+      <input type="radio" name="propertyProvince" cf-conditional-subjectProp="Enter Second Home Address" cf-label="BC" value="BC" />
+      <input type="radio" name="propertyProvince" cf-conditional-subjectProp="Enter Second Home Address" cf-label="SK" value="SK" />
+      <input type="radio" name="propertyProvince" cf-conditional-subjectProp="Enter Second Home Address" cf-label="MB" value="MB" />
+      <input type="radio" name="propertyProvince" cf-conditional-subjectProp="Enter Second Home Address" cf-label="ON" value="ON" />
+    </fieldset>
+    <input type="text" cf-questions="What is the postal code of the property?" cf-conditional-subjectProp="Enter Second Home Address"  cf-error="Invalid Postal Code!" pattern="^[abceghj-nprstvxyABCEGHJ-NPRSTVXY]\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z][ -]?\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z]\d" name="propertyPostal" />
+    
+    <!-- If it is an Offer of Purchase -->
+    <input type="text" cf-questions="What is the street address of the purchase property?" cf-conditional-fnceObj="Offer of Purchase" name="offerAddress" />
+    <input type="text" cf-questions="What city is the property located in?" cf-conditional-fnceObj="Offer of Purchase" name="offerCity" />
+    <fieldset cf-questions="What province is the property in?" required>
+      <input type="radio" name="offerProvince" cf-conditional-fnceObj="Offer of Purchase" cf-label="AB" value="AB" />
+      <input type="radio" name="offerProvince" cf-conditional-fnceObj="Offer of Purchase" cf-label="BC" value="BC" />
+      <input type="radio" name="offerProvince" cf-conditional-fnceObj="Offer of Purchase" cf-label="SK" value="SK" />
+      <input type="radio" name="offerProvince" cf-conditional-fnceObj="Offer of Purchase" cf-label="MB" value="MB" />
+      <input type="radio" name="offerProvince" cf-conditional-fnceObj="Offer of Purchase" cf-label="ON" value="ON" />
+    </fieldset>
+    <input type="text" cf-questions="What is the postal code of the property?" cf-conditional-fnceObj="Offer of Purchase"  cf-error="Invalid Postal Code!" pattern="^[abceghj-nprstvxyABCEGHJ-NPRSTVXY]\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z][ -]?\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z]\d" name="offerPostal" />
+
+    <fieldset cf-questions="What is the type of the property?" required>
+      <input type="radio" name="propType" cf-label="House" value="Single House" />
+      <input type="radio" name="propType" cf-label="Town House" value="Town House" />
+      <input type="radio" name="propType" cf-label="Apartment/Condo" value="Apartment/Condo" />
+      <input type="radio" name="propType" cf-label="Mobile Home" value="Mobile Home" />
+      <input type="radio" name="propType" cf-label="Other" value="Other" />
+    </fieldset>
+
+    <!-- Offer of Purchase Route -->
+    <input type="text" cf-questions="Tell us how much you want to spend on your home." cf-conditional-fnceObj="Offer of Purchase" name="purchaseValue" required />
+    <input type="text" cf-questions="How much would you like to put as a down payment?" cf-conditional-fnceObj="Offer of Purchase" name="downPayment"  id="downPayment" required />
+    <fieldset cf-questions="Where is your down payment coming from?" required>
+      <input type="checkbox" name="downPaymentSource" cf-conditional-fnceObj="Offer of Purchase" cf-label="Personal savings" value="Personal savings" />
+      <input type="checkbox" name="downPaymentSource" cf-conditional-fnceObj="Offer of Purchase" cf-label="Sale from current home" value="Sale from current home" />
+      <input type="checkbox" name="downPaymentSource" cf-conditional-fnceObj="Offer of Purchase" cf-label="Gift from family members" value="Gift from family members" />
+      <input type="checkbox" name="downPaymentSource" cf-conditional-fnceObj="Offer of Purchase" cf-label="Borrowed against liquid assets" value="Borrowed against liquid assets" />
+      <input type="checkbox" name="downPaymentSource" cf-conditional-fnceObj="Offer of Purchase" cf-label="RRSP" value="RRSP" />
+      <input type="checkbox" name="downPaymentSource" cf-conditional-fnceObj="Offer of Purchase" cf-label="Other" value="Other" />
+    </fieldset>
+    <input type="date" cf-questions="What is the offer of purchase date?" pattern="[0-9]{8}" cf-error="Date format: YYYYMMDD" cf-conditional-fnceObj="Offer of Purchase" name="oopDate" required />
+    <input type="date" cf-questions="What is the condition of finance completion date?" pattern="[0-9]{8}" cf-error="Date format: YYYYMMDD" cf-conditional-fnceObj="Offer of Purchase" name="fnceCompDate" required />
+    <input type="date" cf-questions="What is the date of possession?" pattern="[0-9]{8}" cf-error="Date format: YYYYMMDD" cf-conditional-fnceObj="Offer of Purchase" name="possessionDate" required />
+    <input type="number" cf-questions="What is the MLS number?" cf-conditional-fnceObj="Offer of Purchase" name="mlsNumber" required />
+
+    <!-- Refinance / Renewal / Equity-Take-Out Route -->
+    <fieldset cf-questions="What are the financial objectives? (Choose one or more and then hit enter)" required>
+      <input type="checkbox" name="refiObj" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Equity Take-out" value="Equity Take-out" />
+      <input type="checkbox" name="refiObj" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Change repayment term(s)" value="Change repayment term(s)" />
+      <input type="checkbox" name="refiObj" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Lower mortgage payment" value="Lower mortgage payment" />
+      <input type="checkbox" name="refiObj" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Lower overall debt payment" value="Lower overall debt payment" />
+      <input type="checkbox" name="refiObj" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Better rate renewal" value="Better rate renewal" />
+      <input type="checkbox" name="refiObj" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Add a line of credit" value="Add a line of credit" />
+      <input type="checkbox" name="refiObj" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Other" value="Other" />
+    </fieldset>
+    <input type="text" cf-questions="What’s the estimated market value (If you were to sell it in the next 60 days, how much could you sell it for? It’s best to be conservative with this number)" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" name="marketPrice" required />
+    <input type="text" cf-questions="Who is your current mortgage provider?" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" name="provider" required />
+    <input type="text" cf-questions="What is your mortgage balance? (If not sure, please give us your best estimate)" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" name="mortgageBalance" required />
+    <fieldset cf-questions="Is there a secured line of credit attached to this mortgage?" required>
+      <input type="radio" name="securedLineOfCredit" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="Yes" value="Yes" />
+      <input type="radio" name="securedLineOfCredit" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" cf-label="No" value="No" />
+    </fieldset>
+    <input type="text" cf-questions="What is your line of credit balance? (If not sure, please give us your best estimate)" cf-conditional-securedLineOfCredit="Yes" name="locBalance" id="locBalance" required />
+    <input type="text" cf-questions="How much money would you like to access from your equity? (Enter 0 if you do not need additional funds)" cf-conditional-fnceObj="Refinance / Renewal / Equity-Take-Out" name="equity" required />
+
+    <!-- Express Pre-Approval Route -->
+    <fieldset cf-questions="When do you plan to make your home purchase?" required>
+      <input type="radio" name="purchaseTimeline" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Within 2 weeks" value="Within 2 weeks" />
+      <input type="radio" name="purchaseTimeline" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Within a month" value="Within a month" />
+      <input type="radio" name="purchaseTimeline" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Within 2 months" value="Within 2 months" />
+      <input type="radio" name="purchaseTimeline" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Within 3 months" value="Within 3 months" />
+      <input type="radio" name="purchaseTimeline" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Other" value="Other" />
+    </fieldset>
+    <input type="text" cf-questions="Tell us how much you want to spend on your home." cf-conditional-fnceObj="Express Pre-Approval" name="homeBudget" required />
+    <fieldset cf-questions="Would you like to enter your down payment in dollar value or in percentage of the home value?" required>
+      <input type="radio" name="downEntry" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Percentage" value="Percentage" />
+      <input type="radio" name="downEntry" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Dollar Value" value="Dollar Value" />
+    </fieldset>
+    <input cf-questions="What percent of your home value would you like to put as a down payment?" cf-conditional-downEntry="Percentage" name="percent" required />
+    <input type="text" cf-questions="How much would you like to put as a down payment?" cf-conditional-downEntry="Dollar Value" name="downBudget" id="downBudget" required />
+    <fieldset cf-questions="Where is your down payment coming from?" required>
+      <input type="checkbox" name="downPaymentSourceExpress" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Savings" value="Personal savings" />
+      <input type="checkbox" name="downPaymentSourceExpress" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Sale from home" value="Sale from current home" />
+      <input type="checkbox" name="downPaymentSourceExpress" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Gift" value="Gift from family members" />
+      <input type="checkbox" name="downPaymentSourceExpress" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Borrowed against assets" value="Borrowed against liquid assets" />
+      <input type="checkbox" name="downPaymentSourceExpress" cf-conditional-fnceObj="Express Pre-Approval" cf-label="RRSP" value="RRSP" />
+      <input type="checkbox" name="downPaymentSourceExpress" cf-conditional-fnceObj="Express Pre-Approval" cf-label="Other" value="Other" />
+    </fieldset>
+
+    <!-- Income and Earnings Question Set -->
+    <fieldset cf-questions="What is your employment status?" required>
+      <input type="radio" name="incomeSource" cf-label="Employed" value="Employed" />
+      <input type="radio" name="incomeSource" cf-label="Self-employed" value="Self-employed" />
+      <input type="radio" name="incomeSource" cf-label="Guaranteed Pension" value="Guaranteed Pension" />
+      <input type="radio" name="incomeSource" cf-label="Other" value="Other" />
+    </fieldset>
+
+    <!-- Employed Route -->
+    <fieldset cf-questions="Please identify your source of income" required>
+      <input type="radio" name="employedSource" cf-conditional-incomeSource="Employed" cf-label="Fixed salary" value="Fixed salary" />
+      <input type="radio" name="employedSource" cf-conditional-incomeSource="Employed" cf-label="Full Time Hourly Paid" value="Full Time Hourly Paid" />
+      <input type="radio" name="employedSource" cf-conditional-incomeSource="Employed" cf-label="Part Time Hourly Paid" value="Part Time Hourly Paid" />
+      <input type="radio" name="employedSource" cf-conditional-incomeSource="Employed" cf-label="Base and Commission / Commission only" value="Base and Commission / Commission only" />
+    </fieldset>
+
+    <!-- Fixed Salary -->
+    <input type="text" cf-questions="What is your ANNUAL gross earnings?" cf-conditional-employedSource="Fixed salary" name="grossEarnings" />
+    
+    <!-- Number of Hours Worked-->
+    <input type="number" cf-questions="Average number of work hours per WEEK?" cf-conditional-employedSource="Part Time Hourly Paid" name="hoursPerWeek" />
+    <input type="number" cf-questions="What is your hourly rate?" cf-conditional-employedSource="Full Time Hourly Paid||Part Time Hourly Paid" name="hourlyRate" />
+
+    <!-- Base + Commission / Commission only -->
+    <input type="text" cf-questions="What is your average net income for the last 2 years? Your net income is what you declared personally BEFORE adding deductions. (If not sure, please give us your best estimate.)" cf-conditional-employedSource="Base and Commission / Commission only" name="currentYearBase" />
+
+    <!-- Self-Employed Route -->
+    <input type="text" cf-questions="What is your average personal income for the last 2 years? (this is not your gross business income, but what you pay yourself and declare to the government)." cf-conditional-incomeSource="Self-employed" name="currentYearSelf" />
+
+    <!-- Guaranteed Pension Route -->
+    <input type="text" cf-questions=" What was your net income last year? Your net income is what you declared personally BEFORE adding deductions. (If not sure, please give us your best estimate.)" cf-conditional-incomeSource="Guaranteed Pension||Other" name="currentYear" />
+
+    <!-- Income and Earnings Question Set Co-Applicant -->
+    <fieldset cf-questions="Please identify the co-applicant's source of income" required>
+      <input type="radio" name="incomeSourceCoApp" cf-conditional-referral="Joint" cf-label="Employed" value="Employed" />
+      <input type="radio" name="incomeSourceCoApp" cf-conditional-referral="Joint" cf-label="Self-employed" value="Self-employed" />
+      <input type="radio" name="incomeSourceCoApp" cf-conditional-referral="Joint" cf-label="Guaranteed Pension" value="Guaranteed Pension" />
+      <input type="radio" name="incomeSourceCoApp" cf-conditional-referral="Joint" cf-label="Other" value="Other" />
+    </fieldset>
+
+    <!-- Employed Route -->
+    <fieldset cf-questions="Please identify your source of income" required>
+      <input type="radio" name="employedSourceCoApp" cf-conditional-incomeSourceCoApp="Employed" cf-label="Fixed salary" value="Fixed salary" />
+      <input type="radio" name="employedSourceCoApp" cf-conditional-incomeSourceCoApp="Employed" cf-label="Full Time Hourly Paid" value="Full Time Hourly Paid" />
+      <input type="radio" name="employedSourceCoApp" cf-conditional-incomeSourceCoApp="Employed" cf-label="Part Time Hourly Paid" value="Part Time Hourly Paid" />
+      <input type="radio" name="employedSourceCoApp" cf-conditional-incomeSourceCoApp="Employed" cf-label="Base and Commission / Commission only" value="Base and Commission / Commission only" />
+    </fieldset>
+
+    <!-- Fixed Salary-->
+    <input type="text" cf-questions="What is the co-applicant's ANNUAL gross earnings?" cf-conditional-employedSourceCoApp="Fixed salary" name="grossEarningsCoApp" />
+    
+    <!-- Number of Hours Worked-->
+    <input type="number" cf-questions="Average number of work hours per WEEK?" cf-conditional-employedSourceCoApp="Part Time Hourly Paid" name="hoursPerWeekCoApp" />
+    <input type="number" cf-questions="What is the co-applicant's hourly rate?" cf-conditional-employedSourceCoApp="Full Time Hourly Paid||Part Time Hourly Paid" name="hourlyRateCoApp" />
+
+    <!-- Base + Commission / Commission only -->
+    <input type="text" cf-questions="What is the average NET income of the co-applicant for the last 2 years? Net income is what you declared personally BEFORE adding deductions. (If not sure, please give us your best estimate.)" cf-conditional-employedSourceCoApp="Base and Commission / Commission only" cf-conditional-referral="Joint" name="currentYearCoAppBase" />
+
+    <!-- Self-Employed Route -->
+    <input type="text" cf-questions="What is the co-applicant’s average personal income for the last 2 years? (this is not your gross business income, but what you pay yourself and declare to the government)." cf-conditional-incomeSourceCoApp="Self-employed" cf-conditional-referral="Joint" name="currentYearCoAppSelf" />
+  
+    <!-- Guaranteed Pension Route -->
+    <input type="text" cf-questions="What was the co-applicant’s net income last year? Net income is what you declared personally BEFORE adding deductions. (If not sure, please give us your best estimate.)" cf-conditional-incomeSourceCoApp="Guaranteed Pension||Other" cf-conditional-referral="Joint" name="currentYearCoApp" />
+    
+  </form>
+</body>
+
+<div id="consent-modal" class="modal" style="padding: 10px !important; font-size: 14px !important;">
+  <h2>Consent Form</h2>
+  <p>You hereby authorize the Financial Professional, to disclose the information on this referral form to BIGBPS  Mortgages Inc., (BIGBPS ). BIGBPS  collects personal information in this referral form and throughout the application process. Personal information such as your age, marital status, employment history, income, social insurance number, credit history, home address, email address, and home telephone number. any process information that identifies you. It may include information such as your age, marital status, employment history, income, social insurance number, credit history, home address, email address, and home telephone number. BIGBPS requires your personal information in order to establish your identity, communicate with you, understand and assess your eligibility for products and services, to administer and collect your accounts, to carry on business with you, and to comply with the law. 
+  <br><br>You hereby authorize BIGBPS  to request information from time to time and when necessary from any credit bureau, from any person authorized by law, from any person mentioned in the credit reports obtained, and from any financial institution and authorize said persons to provide the information requested. Any file will be kept in the appropriate department of BIGBPS or it’s affiliates. Upon written request delivered to BIGBPS, you will be allowed to consult the information, which may be accessed by law, and you may obtain a copy of such information by paying the administration fees BIGBPS may establish from time to time. By providing your email address, you consent to receive email marketing communications regarding BIGBPS products, services, and events and understand that you can unsubscribe at any time.</p>
+  <h4>Applicant Signature</h4>
+  <canvas id="signature" style="border: 1px solid #ddd; width: 100%;"></canvas>
+  <br>
+  <button id="clear-signature">Clear</button>
+  <button id="submit">Submit</button>
+</div>
+
+<div id="coapp-consent-modal" class="modal" style="padding: 10px !important; font-size: 14px !important;">
+  <h2>Consent Form</h2>
+  <p>You hereby authorize the Financial Professional, to disclose the information on this referral form to BIGBPS Mortgages Inc., (BIGBPS). BIGBPS collects personal information in this referral form and throughout the application process. Personal information such as your age, marital status, employment history, income, social insurance number, credit history, home address, email address, and home telephone number. any process information that identifies you. It may include information such as your age, marital status, employment history, income, social insurance number, credit history, home address, email address, and home telephone number. BIGBPS requires your personal information in order to establish your identity, communicate with you, understand and assess your eligibility for products and services, to administer and collect your accounts, to carry on business with you, and to comply with the law. 
+  <br><br>You hereby authorize BIGBPS to request information from time to time and when necessary from any credit bureau, from any person authorized by law, from any person mentioned in the credit reports obtained, and from any financial institution and authorize said persons to provide the information requested. Any file will be kept in the appropriate department of BIGBPS or it’s affiliates. Upon written request delivered to BIGBPS, you will be allowed to consult the information, which may be accessed by law, and you may obtain a copy of such information by paying the administration fees BIGBPS may establish from time to time. By providing your email address, you consent to receive email marketing communications regarding BIGBPS products, services, and events and understand that you can unsubscribe at any time.</p>
+  <h4>Primary Applicant Signature</h4>
+  <canvas id="signature-primary" style="border: 1px solid #ddd; width: 100%;"></canvas>
+  <br>
+  <button id="clear-signature-primary">Clear</button>
+  <h4>Co-Applicant Signature</h4>
+  <canvas id="signature-coapp" style="border: 1px solid #ddd; width: 100%;"></canvas>
+  <br>
+  <button id="coapp-clear-signature">Clear</button>
+  <button id="submit-coapp">Submit</button>
+</div>
+
+<div id="confirm-modal-single" class="modal" style="padding: 10px !important; font-size: 14px !important;">
+  <h2>Please confirm these details, if they are correct please hit submit</h2>
+  <form>
+    <div>
+      <label for="prim">Name:</label>
+      <input id="prim" type="text" />
+    </div>
+    <div>
+      <label for="dob">DOB:</label>
+      <input id="dob" type="text" />
+    </div>
+    <div>
+      <label for="address">Address:</label>
+      <input id="address" type="text" />
+    </div>
+    <div>
+      <label for="postal">Postal:</label>
+      <input id="postal" type="text" />
+    </div>
+    <div>
+      <label for="city">City:</label>
+      <input id="city" type="text" />
+    </div>
+    <div>
+      <label for="apt">Apt:</label>
+      <input id="apt" type="text" />
+    </div>
+  </form>
+  <button id="submit-verify" class="verify" style="margin-top: 5px;">Submit</button>
+  <button id="edit" class="verify" style="margin-top: 5px;">Edit</button>
+</div>
+
+<div id="confirm-modal-coapp" class="modal" style="padding: 10px !important; font-size: 14px !important;">
+    <h2>Please confirm these details, if they are correct please hit submit</h2>
+    <form>
+      <div>
+        <label for="prim">Name:</label>
+        <input id="primName" type="text" />
+      </div>
+      <div>
+        <label for="dob">DOB:</label>
+        <input id="dobPrim" type="text" />
+      </div>
+      <div>
+        <label for="address">Address:</label>
+        <input id="addressPrim" type="text" />
+      </div>
+      <div>
+        <label for="postal">Postal:</label>
+        <input id="postalPrim" type="text" />
+      </div>
+      <div>
+        <label for="city">City:</label>
+        <input id="cityPrim" type="text" />
+      </div>
+      <div>
+        <label for="apt">Apt Num:</label>
+        <input id="aptPrim" type="text" />
+      </div>
+      <div>
+        <label for="name">Co-App Name:</label>
+        <input id="name" type="text" />
+      </div>
+      <div>
+        <label for="dobCoApp">Co-App DOB:</label>
+        <input id="dobCoApp" type="text" />
+      </div>
+      <div>
+          <label for="addressCoApp">Co-App Address:</label>
+          <input id="addressCoApp" type="text" />
+        </div>
+      <div>
+        <label for="cityCoApp">Co-App City:</label>
+        <input id="cityCoApp" type="text" />
+      </div>
+      <div>
+        <label for="postalCoApp">Co-App Postal:</label>
+        <input id="postalCoApp" type="text" />
+      </div>
+      <div>
+        <label for="aptCoApp">Co-App Apt:</label>
+        <input id="aptCoApp" type="text" />
+      </div>
+    </form>
+    <button id="submit-verify-coapp" class="verify" style="margin-top: 5px;">Submit</button>
+    <button id="edit-coapp" class="verify" style="margin-top: 5px;">Edit</button>
+  </div>
+
+</html>

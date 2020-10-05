@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="BigBPS Referral Form" />
+    <meta property="og:image" content="https://i.ibb.co/cg254J9/House.jpg" />
+    <title>BigBPS Referral Form</title>
+    <link rel="stylesheet" href="./styles/stylesheet.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/space10-community/conversational-form@1.0.2/dist/conversational-form.min.js" crossorigin></script>
+    <script type="text/javascript" src="./js/referral.js"></script>
+  </head>
+  <body>
+    <div class="approved">
+      <form id="form">
+        <div class="welcome"></div>
+        <input type="text" cf-questions="What's the applicants first name?" name="greetingName" required />
+        <input type="tel" cf-questions="What's the applicants mobile phone number?" name="primaryApplicantMobile" pattern="^(\d{10})\s*$" cf-error="Thats not a valid phone number" required />
+      </form>
+    </div>
+    <div class="pending">
+      <img src='./assets/favi.png' />
+      <h2>You have not yet been approved to add referrals. Please check again later.</h2>
+    </div>
+  </body>
+  <div class="modal" id="confirm-modal">
+    <h2>By hitting the submit button, you are verifying the following information as well as your client’s identity. If any changes are required, please hit the edit button and make the necessary changes. </h2>
+    <form>
+      <div>
+        <label for="phone">Mobile Ph:</label>
+        <input id="phone" type="text" />
+      </div>
+    </form>
+    <button class="verify" id="submit">Submit</button>
+    <button class="verify" id="edit">Edit</button>
+  </div>
+</html>

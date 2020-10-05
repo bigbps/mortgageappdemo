@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="BigBPS Mortgage Pre-Qualification" />
+    <meta property="og:image" content="https://i.ibb.co/tz6tCkC/houses.jpg" />
+    <title>BigBPS Mortage Pre-Qualification</title>
+    <link rel="stylesheet" href="./styles/stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/space10-community/conversational-form@1.0.2/dist/conversational-form.min.js" crossorigin></script>
+    <script type="text/javascript" src="./js/prequal.js"></script>
+  </head>
+  <body>
+    <form id="form" cf-form>
+      <input type="text" cf-questions="What's your first name?" name="firstName" required />
+      <input type="text" cf-questions="Thanks {previous-answer}, what's your last name?" name="lastName" required />
+      <fieldset cf-questions="Have you made an offer to purchase your home, {firstName}?" required>
+        <input type="radio" name="offer" cf-label="Yes" value="Yes" />
+        <input type="radio" name="offer" cf-label="No" value="No" />
+      </fieldset>
+      <fieldset cf-questions="Are any of the applicants self employed?" required>
+        <input type="radio" name="applicants" cf-label="Yes" value="Yes" />
+        <input type="radio" name="applicants" cf-label="No" value="No" />
+      </fieldset>
+      <fieldset cf-questions="Describe your credit situation" required>
+        <input type="radio" name="credit" cf-label="Excellent" value="Excellent" />
+        <input type="radio" name="credit" cf-label="I may be behind a couple of payments" value="I may be behind a couple of payments" />
+        <input type="radio" name="credit" cf-label="I am not sure" value="I am not sure" />
+      </fieldset>
+      <input type="text" cf-questions="How much is your total household income annually before tax, approximately?" name="income" required />
+      <input type="text" cf-questions="What is the maximum amount you would like to spend on a home" name="maximum" required />
+      <fieldset cf-questions="We are reviewing your request right now, in the meantime would you like us to perform a credit check? It is free and will not leave a record on your credit profile. By doing this, we will have a more accurate mortgage approval for you." required>
+        <input type="radio" name="check" cf-label="Yes" value="Yes" />
+        <input type="radio" name="check" cf-label="No" value="No" />
+      </fieldset>
+      <input type="text" cf-questions="Alright, What is your address?" cf-conditional-check="Yes" name="address" />
+      <input type="text" cf-questions="Lastly, what is your date of birth YYYYMMDD" pattern="[0-9]{8}" cf-error="Date format: YYYYMMDD" cf-conditional-check="Yes" name="dob" />
+    </form>
+  </body>
+</html>

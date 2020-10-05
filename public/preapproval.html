@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="HomeHow Pre-Approval Form" />
+    <meta property="og:image" content="https://i.ibb.co/W3zdkND/preapp.jpg" />
+    <title>HomeHow Pre-Approval Form</title>
+    <link rel="stylesheet" href="./styles/stylesheet.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/space10-community/conversational-form@1.0.2/dist/conversational-form.min.js" crossorigin></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="./js/preapproval.js"></script>
+  </head>
+  <body>
+    <form id="form" cf-form>
+
+      <div class="welcome"></div>
+      <cf-robot-message cf-questions="This process quickly produces a Mortgage Pre-Approval based on your unique situation. We will ask you targeted questions in order to be as accurate as possible." />
+      <cf-robot-message cf-questions="You will receive an email with your mortgage approval after finishing the application. If the message is not in your inbox, please check your junk/spam folder or notify us at 1-833-466-3469. Let's get started!" />
+      <!-- Start of conversational form -->
+      <fieldset cf-questions="Do you have a co-applicant today?" required>
+        <input type="radio" name="referral" cf-label="Yes" value="Joint" />
+        <input type="radio" name="referral" cf-label="No" value="Single" />
+      </fieldset>
+
+      <input type="text" cf-questions="What is your legal first name?" name="primaryApplicantFirstName" required />
+      <input type="text" cf-questions="What is your legal last name?" name="primaryApplicantLastName" required />
+      <input type="email" cf-questions="What is your email?" name="primaryApplicantEmail" cf-error="Thats not a valid email" required />
+      <input type="text" cf-questions="Alright, what is your date of birth? (YYYYMMDD)" pattern="[0-9]{8}" cf-error="Date format: YYYYMMDD" name="primaryDOB" required />
+      <input type="text" cf-questions="If you live in an apartment, please enter the apartment number, if not please press enter" name="apt" />
+      <input type="text" cf-questions="What is your street address?" name="primaryAddress" required />
+      <input type="text" cf-questions="What city is the property located in?" name="primaryCity" required />
+      <fieldset cf-questions="What province do you live in?" required>
+        <input type="radio" name="primaryProvince" cf-label="AB" value="AB" />
+        <input type="radio" name="primaryProvince" cf-label="BC" value="BC" />
+        <input type="radio" name="primaryProvince" cf-label="SK" value="SK" />
+        <input type="radio" name="primaryProvince" cf-label="MB" value="MB" />
+        <input type="radio" name="primaryProvince" cf-label="ON" value="ON" />
+      </fieldset>
+      <input type="text" cf-questions="What is your postal code?" name="primaryPostal"  pattern="^[abceghj-nprstvxyABCEGHJ-NPRSTVXY]\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z][ -]?\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z]\d" name="primaryPostal" required />
+
+      <!-- Secondary Applicant Questions -->
+      <input type="text" cf-questions="What's the co-applicant's first name?" cf-conditional-referral="Joint" name="secondaryApplicantFirstName" required />
+      <input type="text" cf-questions="What's the co-applicant's last name?" cf-conditional-referral="Joint" name="secondaryApplicantLastName" required />
+      <input type="number" cf-questions="What's the co-applicant's date of birth? (YYYYMMDD)" cf-conditional-referral="Joint" name="secondaryApplicantDOB"  pattern="[0-9]{8}" cf-error="Date format: YYYYMMDD" required />
+      <fieldset cf-questions="Co-applicant Address?">
+        <input type="radio" name="coappAdd" cf-conditional-referral="Joint" cf-label="Use same address as primary applicant" value="Use same address as primary applicant" />
+        <input type="radio" name="coappAdd" cf-conditional-referral="Joint" cf-label="Enter a different address" value="Enter a different address" />
+      </fieldset>
+
+      <!-- Co-Applicant has different address -->
+      <input type="number" cf-questions="If the co-applicant lives in an apartment, please enter the apartment number, if not please press enter" cf-conditional-coappAdd="Enter a different address" name="coAppApt" />
+      <input type="text" cf-questions="Alright, what is the property street address of the co-applicant?" cf-conditional-coappAdd="Enter a different address" name="coAppAddress" required />
+      <input type="text" cf-questions="What city is the co-applicant's property located in?" cf-conditional-coappAdd="Enter a different address" name="coAppCity" required />
+      <fieldset cf-questions="What province does the co-applicant live in?" required>
+        <input type="radio" name="coAppProvince" cf-conditional-coappAdd="Enter a different address" cf-label="AB" value="AB" />
+        <input type="radio" name="coAppProvince" cf-conditional-coappAdd="Enter a different address" cf-label="BC" value="BC" />
+        <input type="radio" name="coAppProvince" cf-conditional-coappAdd="Enter a different address" cf-label="SK" value="SK" />
+        <input type="radio" name="coAppProvince" cf-conditional-coappAdd="Enter a different address" cf-label="MB" value="MB" />
+        <input type="radio" name="coAppProvince" cf-conditional-coappAdd="Enter a different address" cf-label="ON" value="ON" />
+      </fieldset>
+      <input type="text" cf-questions="What is the postal code of the property?" cf-conditional-coappAdd="Enter a different address"  cf-error="Invalid Postal Code!" pattern="^[abceghj-nprstvxyABCEGHJ-NPRSTVXY]\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z][ -]?\d[abceghj-nprstv-zABCEGHJ-NPRSTV-Z]\d" name="coAppPostal" />
+
+      <!-- Express Pre-Approval Route -->
+      <fieldset cf-questions="When do you plan to make your home purchase?" required>
+        <input type="radio" name="purchaseTimeline" cf-label="Within 2 weeks" value="Within 2 weeks" />
+        <input type="radio" name="purchaseTimeline" cf-label="Within a month" value="Within a month" />
+        <input type="radio" name="purchaseTimeline" cf-label="Within 2 months" value="Within 2 months" />
+        <input type="radio" name="purchaseTimeline" cf-label="Within 3 months" value="Within 3 months" />
+        <input type="radio" name="purchaseTimeline" cf-label="Other" value="Other" />
+      </fieldset>
+      <input type="text" cf-questions="Tell us how much you want to spend on your home." name="homeBudget" id="homeBudget" required />
+      <fieldset cf-questions="Would you like to enter your down payment in dollar value or in percentage of the home value?" required>
+        <input type="radio" name="downEntry" cf-label="Percentage" value="Percentage" />
+        <input type="radio" name="downEntry" cf-label="Dollar Value" value="Dollar Value" />
+      </fieldset>
+
+      <input cf-questions="What percent of your home value would you like to put as a down payment?" cf-conditional-downEntry="Percentage" name="percent" required />
+      <input type="text" cf-questions="How much would you like to put as a down payment?" cf-conditional-downEntry="Dollar Value" name="downBudget" id="downBudget" required />
+
+      <fieldset cf-questions="Where is your down payment coming from? " required>
+        <input type="checkbox" name="downPaymentSourceExpress" cf-label="Personal savings" value="Personal savings" />
+        <input type="checkbox" name="downPaymentSourceExpress" cf-label="Sale from current home" value="Sale from current home" />
+        <input type="checkbox" name="downPaymentSourceExpress" cf-label="Gift from family members" value="Gift from family members" />
+        <input type="checkbox" name="downPaymentSourceExpress" cf-label="Borrowed against liquid assets" value="Borrowed against liquid assets" />
+        <input type="checkbox" name="downPaymentSourceExpress" cf-label="RRSP" value="RRSP" />
+        <input type="checkbox" name="downPaymentSourceExpress" cf-label="Other" value="Other" />
+      </fieldset>
+
+      <fieldset cf-questions="What is the property type?" required>
+        <input type="radio" name="propType" cf-label="House" value="Single House" />
+        <input type="radio" name="propType" cf-label="Town House" value="Town House" />
+        <input type="radio" name="propType" cf-label="Apartment/Condo" value="Apartment/Condo" />
+        <input type="radio" name="propType" cf-label="Mobile Home" value="Mobile Home" />
+        <input type="radio" name="propType" cf-label="Other" value="Other" />
+      </fieldset>
+
+      <!-- Income and Earnings Question Set -->
+      <fieldset cf-questions="What is your employment status?" required>
+        <input type="radio" name="incomeSource" cf-label="Employed" value="Employed" />
+        <input type="radio" name="incomeSource" cf-label="Self-employed" value="Self-employed" />
+        <input type="radio" name="incomeSource" cf-label="Guaranteed Pension" value="Guaranteed Pension" />
+        <input type="radio" name="incomeSource" cf-label="Other" value="Other" />
+      </fieldset>
+
+      <!-- Employed Route -->
+      <fieldset cf-questions="Please identify your source of income" required>
+        <input type="radio" name="employedSource" cf-conditional-incomeSource="Employed" cf-label="Fixed salary" value="Fixed salary" />
+        <input type="radio" name="employedSource" cf-conditional-incomeSource="Employed" cf-label="Full Time Hourly Paid" value="Full Time Hourly Paid" />
+        <input type="radio" name="employedSource" cf-conditional-incomeSource="Employed" cf-label="Part Time Hourly Paid" value="Part Time Hourly Paid" />
+        <input type="radio" name="employedSource" cf-conditional-incomeSource="Employed" cf-label="Base and Commission / Commission only" value="Base and Commission / Commission only" />
+      </fieldset>
+
+      <!-- Fixed Salary-->
+      <input type="text" cf-questions="What is your ANNUAL gross earnings?" cf-conditional-employedSource="Fixed salary" class="grossEarnings" name="grossEarnings" />
+      
+      <!-- Number of Hours Worked-->
+      <input type="number" cf-questions="Average number of work hours per WEEK?" cf-conditional-employedSource="Part Time Hourly Paid" name="hoursPerWeek" />
+      <input type="number" cf-questions="What is your hourly rate?" cf-conditional-employedSource="Full Time Hourly Paid||Part Time Hourly Paid" name="hourlyRate" />
+
+      <!-- Base + Commission / Commission only -->
+      <input type="text" cf-questions="What is your 2018 net income? Your net income is what you declared personally BEFORE adding deductions. (If not sure, please give us your best estimate.)" cf-conditional-employedSource="Base and Commission / Commission only" name="currentYearBase" />
+
+      <!-- Self-Employed Route -->
+      <input type="text" cf-questions="What is your total personal income for 2018 (this is not your gross business income, but what you pay yourself and declare to the government)." cf-conditional-incomeSource="Self-employed" name="currentYearSelf" />
+
+      <!-- Guaranteed Pension Route -->
+      <input type="text" cf-questions="What is your 2018 net income? Your net income is what you declared personally BEFORE adding deductions. (If not sure, please give us your best estimate.)" cf-conditional-incomeSource="Guaranteed Pension||Other" name="currentYear" />
+      
+      <!-- Debt Obligations -->
+      <input type="text" cf-questions="What are your current credit card balances? (Please include all the debts that are under a joint account). Please enter 0 if you don't have an outstanding balance." class="creditDebt" name="creditDebt" required />
+      <input type="text" cf-questions="What are your other monthly debt obligations? (car leases, student loans, etc.)" class="monthlyDebt" name="monthlyDebt" required />
+
+      <!-- Income and Earnings Question Set Co-Applicant -->
+      <fieldset cf-questions="Please identify the co-applicant's source of income" required>
+        <input type="radio" name="incomeSourceCoApp" cf-conditional-referral="Joint" cf-label="Employed" value="Employed" />
+        <input type="radio" name="incomeSourceCoApp" cf-conditional-referral="Joint" cf-label="Self-employed" value="Self-employed" />
+        <input type="radio" name="incomeSourceCoApp" cf-conditional-referral="Joint" cf-label="Guaranteed Pension" value="Guaranteed Pension" />
+        <input type="radio" name="incomeSourceCoApp" cf-conditional-referral="Joint" cf-label="Other" value="Other" />
+      </fieldset>
+
+      <!-- Employed Route -->
+      <fieldset cf-questions="Please identify your source of income" required>
+        <input type="radio" name="employedSourceCoApp" cf-conditional-incomeSourceCoApp="Employed" cf-label="Fixed salary" value="Fixed salary" />
+        <input type="radio" name="employedSourceCoApp" cf-conditional-incomeSourceCoApp="Employed" cf-label="Full Time Hourly Paid" value="Full Time Hourly Paid" />
+        <input type="radio" name="employedSourceCoApp" cf-conditional-incomeSourceCoApp="Employed" cf-label="Part Time Hourly Paid" value="Part Time Hourly Paid" />
+        <input type="radio" name="employedSourceCoApp" cf-conditional-incomeSourceCoApp="Employed" cf-label="Base and Commission / Commission only" value="Base and Commission / Commission only" />
+      </fieldset>
+
+      <!-- Fixed Salary-->
+      <input type="text" cf-questions="What is the co-applicant's ANNUAL gross earnings?" cf-conditional-employedSourceCoApp="Fixed salary" name="grossEarningsCoApp" />
+      
+      <!-- Number of Hours Worked-->
+      <input type="number" cf-questions="Average number of work hours per WEEK?" cf-conditional-employedSourceCoApp="Part Time Hourly Paid" name="hoursPerWeekCoApp" />
+      <input type="number" cf-questions="What is the co-applicant's hourly rate?" cf-conditional-employedSourceCoApp="Full Time Hourly Paid||Part Time Hourly Paid" name="hourlyRateCoApp" />
+
+      <!-- Base + Commission / Commission only -->
+      <input type="text" cf-questions="What is the co-applicant's 2018 net income? Net income is what you declared personally BEFORE adding deductions. (If not sure, please give us your best estimate.)" cf-conditional-employedSourceCoApp="Base and Commission / Commission only" cf-conditional-referral="Joint" name="currentYearCoAppBase" />
+
+      <!-- Self-Employed Route -->
+      <input type="text" cf-questions="What is the co-applicant's total personal income for 2018 (this is not your gross business income, but what you pay yourself and declare to the government)." cf-conditional-incomeSourceCoApp="Self-employed" cf-conditional-referral="Joint" name="currentYearCoAppSelf" />
+
+      <!-- Guaranteed Pension Route -->
+      <input type="text" cf-questions="What is the co-applicant's 2018 net income? Net income is what you declared personally BEFORE adding deductions. (If not sure, please give us your best estimate.)" cf-conditional-incomeSourceCoApp="Guaranteed Pension||Other" cf-conditional-referral="Joint" name="currentYearCoApp" required />
+      <input type="text" cf-questions="What is the co-applicant's 2017 net income? Net income is what you declared personally BEFORE adding deductions. (If not sure, please give us your best estimate.)" cf-conditional-incomeSourceCoApp="Guaranteed Pension||Other" cf-conditional-referral="Joint" name="prevYearCoApp" required />
+      
+      <!-- Debt Obligations -->
+      <input type="text" cf-questions="What is the co-applicant's current credit card balances? (Please DO NOT include all the debts that are under a joint account). Please enter 0 if there is no outstanding balance." cf-conditional-referral="Joint" name="creditDebtCoApp" required />
+      <input type="text" cf-questions="What are the co-applicant's other monthly debt obligations? (car leases, student loans, etc.)" cf-conditional-referral="Joint" name="monthlyDebtCoApp" />
+
+    </form>
+  </body>
+  
+  <div id="consent-modal" class="modal" style="padding: 10px !important; font-size: 14px !important;">
+    <h2>Consent Form</h2>
+    <p>You hereby authorize the Financial Professional, to disclose the information on this referral form to HomeHow Mortgages Inc., (“HomeHow”). HomeHow collects personal information in this referral form and throughout the application process. Personal information such as your age, marital status, employment history, income, social insurance number, credit history, home address, email address, and home telephone number. any process information that identifies you. It may include information such as your age, marital status, employment history, income, social insurance number, credit history, home address, email address, and home telephone number. HomeHow requires your personal information in order to establish your identity, communicate with you, understand and assess your eligibility for products and services, to administer and collect your accounts, to carry on business with you, and to comply with the law. 
+    <br><br>You hereby authorize HomeHow to request information from time to time and when necessary from any credit bureau, from any person authorized by law, from any person mentioned in the credit reports obtained, and from any financial institution and authorize said persons to provide the information requested. Any file will be kept in the appropriate department of HomeHow or it’s affiliates. Upon written request delivered to HomeHow, you will be allowed to consult the information, which may be accessed by law, and you may obtain a copy of such information by paying the administration fees HomeHow may establish from time to time. By providing your email address, you consent to receive email marketing communications regarding HomeHow products, services, and events and understand that you can unsubscribe at any time.</p>
+    <h4>Applicant Signature</h4>
+    <canvas id="signature" style="border: 1px solid #ddd; width: 100%;"></canvas>
+    <br>
+    <button id="clear-signature">Clear</button>
+    <button id="submit">Submit</button>
+  </div>
+
+  <div id="coapp-consent-modal" class="modal" style="padding: 10px !important; font-size: 14px !important;">
+    <h2>Consent Form</h2>
+    <p>You hereby authorize the Financial Professional, to disclose the information on this referral form to HomeHow Mortgages Inc., (“HomeHow”). HomeHow collects personal information in this referral form and throughout the application process. Personal information such as your age, marital status, employment history, income, social insurance number, credit history, home address, email address, and home telephone number. any process information that identifies you. It may include information such as your age, marital status, employment history, income, social insurance number, credit history, home address, email address, and home telephone number. HomeHow requires your personal information in order to establish your identity, communicate with you, understand and assess your eligibility for products and services, to administer and collect your accounts, to carry on business with you, and to comply with the law. 
+    <br><br>You hereby authorize HomeHow to request information from time to time and when necessary from any credit bureau, from any person authorized by law, from any person mentioned in the credit reports obtained, and from any financial institution and authorize said persons to provide the information requested. Any file will be kept in the appropriate department of HomeHow or it’s affiliates. Upon written request delivered to HomeHow, you will be allowed to consult the information, which may be accessed by law, and you may obtain a copy of such information by paying the administration fees HomeHow may establish from time to time. By providing your email address, you consent to receive email marketing communications regarding HomeHow products, services, and events and understand that you can unsubscribe at any time.</p>
+    <h4>Primary Applicant Signature</h4>
+    <canvas id="signature-primary" style="border: 1px solid #ddd; width: 100%;"></canvas>
+    <br>
+    <button id="clear-signature-primary">Clear</button>
+    <h4>Co-Applicant Signature</h4>
+    <canvas id="signature-coapp" style="border: 1px solid #ddd; width: 100%;"></canvas>
+    <br>
+    <button id="coapp-clear-signature">Clear</button>
+    <button id="submit-coapp">Submit</button>
+  </div>
+
+  <div id="confirm-modal-single" class="modal" style="padding: 10px !important; font-size: 14px !important;">
+    <h2>Please confirm the following details, if they are correct please hit submit</h2>
+    <form>
+      <div>
+        <label for="dob">DOB:</label>
+        <input id="dob" type="text" />
+      </div>
+      <div>
+        <label for="address">Address:</label>
+        <input id="address" type="text" />
+      </div>
+      <div>
+        <label for="postal">Postal:</label>
+        <input id="postal" type="text" />
+      </div>
+      <div>
+        <label for="city">City:</label>
+        <input id="city" type="text" />
+      </div>
+      <div>
+        <label for="apt">Apt:</label>
+        <input id="apt" type="text" />
+      </div>
+    </form>
+    <button id="submit-verify" class="verify" style="margin-top: 5px;">Submit</button>
+    <button id="edit" class="verify" style="margin-top: 5px;">Edit</button>
+  </div>
+
+  <div id="confirm-modal-coapp" class="modal" style="padding: 10px !important; font-size: 14px !important;">
+      <h2>Please confirm the following details, if they are correct please hit submit</h2>
+      <form>
+        <div>
+          <label for="dob">DOB:</label>
+          <input id="dobPrim" type="text" />
+        </div>
+        <div>
+          <label for="address">Address:</label>
+          <input id="addressPrim" type="text" />
+        </div>
+        <div>
+          <label for="postal">Postal:</label>
+          <input id="postalPrim" type="text" />
+        </div>
+        <div>
+          <label for="city">City:</label>
+          <input id="cityPrim" type="text" />
+        </div>
+        <div>
+          <label for="apt">Apt Num:</label>
+          <input id="aptPrim" type="text" />
+        </div>
+        <div>
+          <label for="name">Co-App Name:</label>
+          <input id="name" type="text" />
+        </div>
+        <div>
+          <label for="dobCoApp">Co-App DOB:</label>
+          <input id="dobCoApp" type="text" />
+        </div>
+        <div>
+            <label for="addressCoApp">Co-App Address:</label>
+            <input id="addressCoApp" type="text" />
+          </div>
+        <div>
+          <label for="cityCoApp">Co-App City:</label>
+          <input id="cityCoApp" type="text" />
+        </div>
+        <div>
+          <label for="postalCoApp">Co-App Postal:</label>
+          <input id="postalCoApp" type="text" />
+        </div>
+        <div>
+          <label for="aptCoApp">Co-App Apt:</label>
+          <input id="aptCoApp" type="text" />
+        </div>
+      </form>
+      <button id="submit-verify-coapp" class="verify" style="margin-top: 5px;">Submit</button>
+      <button id="edit-coapp" class="verify" style="margin-top: 5px;">Edit</button>
+    </div>
+
+</html>

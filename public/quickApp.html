@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="BigBPS Partner Sign Up" />
+    <meta property="og:image" content="https://i.ibb.co/nwFQ5V2/sign-up.jpg" />
+    <title>BigBPS Partner Quick Application</title>
+    <link rel="stylesheet" href="./styles/stylesheet.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/space10-community/conversational-form@1.0.2/dist/conversational-form.min.js" crossorigin></script>
+    <script type="text/javascript" src="./js/quickApp.js"></script>
+  </head>
+  <body>
+    <form id="form" cf-form>
+      <div class="welcome"></div>
+      <input cf-questions="Now, please tell me your last name!" type="text" name="lastName" required />
+      <input cf-questions="What is the best email address we can use to reach you?" cf-error="Thats not a valid email" type="email" name="email" required />
+      <cf-robot-message cf-questions="This email will receive all of your client statuses and updates as well as notifications about exclusive offers with BigBPS." />
+      <cf-robot-message cf-questions="But don’t worry, we won’t swamp you with emails!" />
+      <fieldset cf-questions="Our referral program is made for financial professionals. Which of the following best describes your position?" required>
+        <input type="radio" name="flag" cf-label="Financial Planner" value="Financial Planner" />
+        <input type="radio" name="flag" cf-label="Realtor" value="Realtor" />
+        <input type="radio" name="flag" cf-label="Accountant" value="Accountant" />
+        <input type="radio" name="flag" cf-label="Other" value="Other" />
+      </fieldset>
+      <input cf-questions="Last question! Which company are you currently licensed with?" type="text" name="company" required />
+    </form>
+  </body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>BigBPS Admin Portal</title>
+    <link rel="stylesheet" href="./styles/dashboard.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/6325c20011.js"></script>
+    <script type="text/javascript" src="./js/dashboard.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </head>
+
+  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      <a class="navbar-brand" href="dashboard.html">BigBPS</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+          <li class="nav-item" data-placement="right" title="Purchase Qualifying Rate">
+            <a class="nav-link" data-toggle="modal" data-target="#purchaseRate">
+              <span class="nav-link-text">Purchase Qualifying Rate</span>
+            </a>
+          </li>
+          <li class="nav-item" data-placement="right" title="Refinance Qualifying Rate">
+            <a class="nav-link" data-toggle="modal" data-target="#refiRate">
+              <span class="nav-link-text">Refinance Qualifying Rate</span>
+            </a>
+          </li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Partners">
+            <a class="nav-link" href="#partnersTab">
+              <span class="nav-link-text">Partners</span>
+            </a>
+          </li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Deals">
+            <a class="nav-link" href="#dealsTab">
+              <span class="nav-link-text">Deals</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+              <i class="fa fa-fw fa-sign-out"></i>Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="content-wrapper">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-primary o-hidden h-100">
+              <div class="card-body">
+                <div class="mr-5"><span id="pr"></span> - Purchase Rate</div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" data-toggle="modal" data-target="#purchaseRate">
+                <span class="float-left">Edit Rate</span>
+                <span class="float-right">
+                  <i class="fa fa-angle-right"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-warning o-hidden h-100">
+              <div class="card-body">
+                <div class="mr-5"><span id="rr"></span> - Refinance Rate</div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" data-toggle="modal" data-target="#refiRate">
+                <span class="float-left">Edit Rate</span>
+                <span class="float-right">
+                  <i class="fa fa-angle-right"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-success o-hidden h-100">
+              <div class="card-body">
+                <div class="mr-5"><span id="tp"></span> Total Partners</div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="#partnersTab">
+                <span class="float-left">View Partners</span>
+                <span class="float-right">
+                  <i class="fa fa-angle-right"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-danger o-hidden h-100">
+              <div class="card-body">
+                <div class="mr-5"><span id="td"></span> Total Deals</div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="#dealsTab">
+                <span class="float-left">View Deals</span>
+                <span class="float-right">
+                  <i class="fa fa-angle-right"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3" id="partnersTab">
+          <div class="card-header">
+            <i class="fa fa-table mr-2"></i>Partners List
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Company</th>
+                    <th>Mobile Number</th>
+                    <th>Account Status</th>
+                    <th>Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3" id="dealsTab">
+          <div class="card-header">
+            <i class="fa fa-table mr-2"></i>Deals List
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dealsTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Primary Applicant</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Agent Mobile</th>
+                    <th>Deal Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="sticky-footer">
+        <div class="container">
+          <div class="text-center">
+            <small>BigBPS Corporation</small>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Logout Modal-->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <a class="btn btn-primary" href="portal.html">Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Purchase Rate Modal-->
+      <div class="modal fade" id="purchaseRate" tabindex="-1" role="dialog" aria-labelledby="purchaseRateLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="purchaseRateLabel">Edit Qualifying Rate - Purchase</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="purchaseRateId">Purchase Rate</label>
+                <input type="text" class="form-control" id="purchaseRateId" placeholder="Enter rate...">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <a class="btn btn-primary" id="editPurchase" data-dismiss="modal">Save</a>
+            </div>
+          </div>
+        </div>
+      </div>    
+
+      <!-- Edit Refinance Rate Modal-->
+      <div class="modal fade" id="refiRate" tabindex="-1" role="dialog" aria-labelledby="refiRateLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="refiRateLabel">Edit Qualifying Rate - Refinance</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="refinanceRate">Refinance Rate</label>
+                <input type="text" class="form-control" id="refinanceRate" placeholder="Enter rate...">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <a class="btn btn-primary" id="editRefi" data-dismiss="modal">Save</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

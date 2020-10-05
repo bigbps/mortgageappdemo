@@ -1,0 +1,121 @@
+cf-chat-response.robot thumb {
+  background-image: url('https://i.ibb.co/GvTv6Br/favi.png') !important;
+}
+
+.cf-progressBar.show {
+  height: 1.5% !important;
+  background-color: #2C2C2E;
+}
+
+.bar {
+  background-color: #40E9FF !important;
+}
+
+cf-chat-response.user.can-edit {
+  pointer-events: none;
+}
+
+.conversational-form { 
+  z-index: 1 !important;
+}
+
+#cf-context { 
+  width: 100vw; 
+  height: 100vh;
+}
+
+#confirm-modal {
+  padding: 10px !important;
+  font-size: 14px !important;
+}
+
+#form {
+  height: 0px;
+  overflow: hidden;
+}
+
+body {
+  position: static !important;
+  background-color: #2C2C2E !important;
+}
+
+.approved {
+  display: none;
+}
+
+.pending {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 80%;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #2C2C2E;
+  color: #FCFCFC;
+}
+
+input[type=text] {
+  padding: 5px; 
+  outline: 0;
+  border-width: 0 0 1px;
+  border-color: #000000;
+  margin-bottom: 5px;
+}
+
+input[type=text]:focus { 
+  border-color: #333;
+}
+
+input[type=text]:disabled { 
+  background-color: #FFFFFF;
+  color: #000000;
+  border-color: #FFFFFF;
+}
+
+.verify {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #FFFFFF;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  color: #000000;
+  text-align: center;
+  transition: all 0.2s;
+  margin-top: 5px !important;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.button_loading {
+  background: url('../assets/loading.gif') no-repeat 50% 50%;
+}
+
+@media screen and (max-width: 1025px) {
+  input[type="color"],
+  input[type="date"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="email"],
+  input[type="month"],
+  input[type="number"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="text"],
+  input[type="time"],
+  input[type="url"],
+  input[type="week"],
+  select:focus,
+  fieldset,
+  textarea {
+    font-size: 16px !important;
+  }
+}
